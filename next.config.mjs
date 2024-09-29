@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // images: {
+    //     domains: ['queue.arprince.me'],
+    // },
     images: {
-        domains: ['queue.arprince.me'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'queue.arprince.me',
+                pathname: '/img/**', // Adjust this to match your image paths
+            },
+        ],
     },
 };
 
