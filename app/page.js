@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from 'react';
 
 export default function Home() {
-	const [loginInput, setInputValue] = useState('');
+	const [loginInput, setLoginInput] = useState('');
 	const [password, setPassword] = useState('');
 	return (
 		<>
@@ -47,7 +47,7 @@ export default function Home() {
 										autoComplete="loginInput"
 										placeholder="i.e. 2324I245986789"
 										value={loginInput}
-										onChange={(e) => setInputValue(e.target.value)}
+										onChange={(e) => setLoginInput(e.target.value)}
 									/>
 								</div>
 								<div className="mt-2" style={{ display: 'none' }}>
