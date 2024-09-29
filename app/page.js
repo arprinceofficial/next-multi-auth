@@ -5,6 +5,35 @@ import { useState } from 'react';
 export default function Home() {
 	const [loginInput, setLoginInput] = useState('');
 	const [password, setPassword] = useState('');
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		const formData = {
+			loginInput: loginInput,
+			password: password,
+		};
+
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/login`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				console.log('Login successful:', data);
+			} else {
+				console.error('Login failed');
+			}
+		} catch (error) {
+			console.error('Error submitting form:', error);
+		}
+	};
+
 	return (
 		<>
 			<div className="relative md:w-1/2 w-full sm:pr-4 pr-3 pb-3 flex justify-center">
@@ -25,7 +54,9 @@ export default function Home() {
 								</div>
 							</div>
 						</div>
-						<form className="mt-4 rounded-lg p-5 border-[2px] border-gray-200 dark:border-gray-700">
+						<form
+							onSubmit={handleSubmit}
+							className="mt-4 rounded-lg p-5 border-[2px] border-gray-200 dark:border-gray-700">
 							<h2 className="mt-2 text-center text-[22px] font-bold tracking-tight text-gray-900 dark:text-gray-200">Admin Login</h2>
 							<div className="mt-10">
 								<label className="block font-medium text-gray-700 dark:text-gray-300 text-[14px] mb-2"><span>User ID</span></label>
