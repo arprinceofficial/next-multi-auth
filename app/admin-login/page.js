@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
 	const [loginInput, setLoginInput] = useState('');
 	const [password, setPassword] = useState('');
-	const { login, role, loading } = useAuth();
+	const { adminLogin, role, loading } = useAuth();
 	const router = useRouter();
 	useEffect(() => {
 		if (!loading && role) {
@@ -18,10 +18,11 @@ export default function Home() {
 			}
 		}
 	}, [role, loading, router]);
-	
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
+	
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -29,8 +30,8 @@ export default function Home() {
 			loginInput: loginInput,
 			password: password,
 		};
-		await login(formData);
-		router.push('/office');
+		await adminLogin(formData);
+		router.push('/admin');
 	};
 
 	return (
@@ -57,7 +58,7 @@ export default function Home() {
 							<form
 								onSubmit={handleSubmit}
 								className="mt-4 rounded-lg p-5 border-[2px] border-gray-200 dark:border-gray-700">
-								<h2 className="mt-2 text-center text-[22px] font-bold tracking-tight text-gray-900 dark:text-gray-200">Office Login</h2>
+								<h2 className="mt-2 text-center text-[22px] font-bold tracking-tight text-gray-900 dark:text-gray-200">Admin Login</h2>
 								<div className="mt-10">
 									<label className="block font-medium text-gray-700 dark:text-gray-300 text-[14px] mb-2"><span>User ID</span></label>
 									<div className="relative mt-1">
