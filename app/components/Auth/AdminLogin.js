@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ApplicationLogo from '@/app/components/ApplicationLogo';
 import Loader from "@/app/components/Loader/SpinkitBounceLoader";
 import InputError from "@/app/components/Input/Error";
+import InputLabel from "@/app/components/Input/Label";
 
 export default function AdminLogin() {
     const [loginInput, setLoginInput] = useState('');
@@ -67,7 +68,7 @@ export default function AdminLogin() {
                                 className="mt-4 rounded-lg p-5 border-[2px] border-gray-200 dark:border-gray-700">
                                 <h2 className="mt-2 text-center text-[22px] font-bold tracking-tight text-gray-900 dark:text-gray-200">Admin Login</h2>
                                 <div className="mt-10">
-                                    <label className="block font-medium text-gray-700 dark:text-gray-300 text-[14px] mb-2"><span>User ID</span></label>
+                                    <InputLabel value="User ID" textSize="text-[14px]" />
                                     <div className="relative mt-1">
                                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" className="h-4 w-4 text-gray-400">
@@ -94,7 +95,7 @@ export default function AdminLogin() {
                                     </div>
                                 </div>
                                 <div className="mt-2">
-                                    <label className="block font-medium text-gray-700 dark:text-gray-300 text-[14px] mb-2"><span>Password</span></label>
+                                    <InputLabel value="Password" textSize="text-[14px]" />
                                     <div className="relative mt-1">
                                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" className="h-4 w-4 text-gray-400">
