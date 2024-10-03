@@ -1,14 +1,16 @@
 "use client";
-import Image from "next/image";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import ApplicationLogo from "./components/ApplicationLogo";
 
 export default function Home() {
 	const [loginInput, setLoginInput] = useState('');
 	const [password, setPassword] = useState('');
 	const { login, role, loading } = useAuth();
 	const router = useRouter();
+	const [password_open, passwordViewStatus] = useState(false);
+	
 	useEffect(() => {
 		if (!loading && role) {
 			if (role.name === 'Admin') {
@@ -18,7 +20,7 @@ export default function Home() {
 			}
 		}
 	}, [role, loading, router]);
-	
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -32,7 +34,7 @@ export default function Home() {
 		await login(formData);
 		router.push('/office');
 	};
-
+	
 	return (
 		<>
 			<div className="h-screen w-full flex flex-wrap flex items-center justify-center">
@@ -41,17 +43,7 @@ export default function Home() {
 						<div className="pl-8">
 							<div>
 								<div className="flex flex-col justify-center items-center">
-									<div>
-										<Image
-											src="https://queue.arprince.me/img/main-logo.png"
-											alt="logo"
-											width="0"
-											height="0"
-											sizes="100vw"
-											style={{ width: '100px', height: 'auto' }}
-											priority
-										/>
-									</div>
+									<ApplicationLogo width="100px" height="auto" sizes="100vw" />
 								</div>
 							</div>
 							<form
@@ -100,14 +92,17 @@ export default function Home() {
 										<input
 											className="flex w-full focus:border-green-500 focus:ring-green-500 mt-1 items-center border-[1px] border-[solid] border-gray-300 [box-shadow:0px_1px_3px_0px_rgba(0,_0,_0,_0.05)] pl-[10px] h-[40px] sm:text-sm text-[14px] pl-[40px]"
 											id="password"
-											type="password"
+											type={password_open ? 'text' : 'password'}
 											required=""
 											autoComplete="current-password"
 											placeholder="i.e. password#123"
 											value={password}
 											onChange={(e) => setPassword(e.target.value)}
 										/>
-										<i className="absolute top-[14px] right-4 text-[14px] text-gray-600 fa cursor-pointer hidden fa-eye-slash"></i>
+										<i
+											className={`absolute top-[14px] right-4 text-[14px] text-gray-600 fa cursor-pointer ${password_open ? 'fa-eye' : 'fa-eye-slash'}`}
+											onClick={() => passwordViewStatus(!password_open)}
+										></i>
 									</div>
 								</div>
 								<div className="flex items-center justify-center mt-16">
