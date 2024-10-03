@@ -4,6 +4,7 @@ import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import ApplicationLogo from "@/app/components/ApplicationLogo";
 import Loader from "@/app/components/Loader/SpinkitBounceLoader";
+import InputError from "@/app/components/Input/Error";
 
 export default function OfficeLogin() {
     const [loginInput, setLoginInput] = useState('');
@@ -12,6 +13,7 @@ export default function OfficeLogin() {
     const router = useRouter();
     const [password_open, passwordViewStatus] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
         if (!loading && role) {
@@ -27,6 +29,7 @@ export default function OfficeLogin() {
         return <Loader />;
     }
     const handleSubmit = async (event) => {
+        setErrorMsg('');
         setIsLoading(true);
         event.preventDefault();
         const formData = {
@@ -41,7 +44,7 @@ export default function OfficeLogin() {
                 return;
             }
         } catch (error) {
-            console.error('Login failed:', error);
+            setErrorMsg(error.response.data.message);
         } finally {
             setIsLoading(false);
         }
@@ -116,6 +119,7 @@ export default function OfficeLogin() {
                                             onClick={() => passwordViewStatus(!password_open)}
                                         ></i>
                                     </div>
+                                    <InputError message={errorMsg} textSize="text-sm" />
                                 </div>
                                 <div className="flex items-center justify-center mt-16">
                                     <button
