@@ -16,8 +16,6 @@ const geistMono = localFont({
 
 import Favicon from "./public/main-logo.png";
 export const metadata = {
-	title: "Login",
-	description: "Login to the admin panel",
 	icons: [{ rel: 'icon', url: Favicon.src }],
 };
 import { AuthProvider } from '@/app/context/AuthContext';
