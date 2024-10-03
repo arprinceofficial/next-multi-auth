@@ -1,15 +1,11 @@
-"use client";
-import withAuth from '@/app/hoc/withAuth';
-import { useAuth } from '@/app/context/AuthContext';
-
-const AdminPage = () => {
-    const { adminLogout } = useAuth();
-    return <>
-        <div className='flex flex-col'>
-            <button onClick={adminLogout}>Logout</button>
-            <h1>Welcome Admin!</h1>
-        </div>
-    </>;
+import HeaderAdmin from '@/app/components/AppHeader/Admin';
+export const metadata = {
+    title: "Admin Page",
+    description: "Admin Page description",
 };
 
-export default withAuth(AdminPage, ['Admin']);
+export default function home() {
+    return <>
+        <HeaderAdmin />
+    </>;
+};
