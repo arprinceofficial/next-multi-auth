@@ -125,7 +125,7 @@ export default function AdminLogin() {
                                 </div>
                                 <div className="flex items-center justify-center mt-16">
                                     <button
-                                        className="flex items-center px-4 py-2 bg-[#00B076] border border-transparent font-semibold text-white uppercase tracking-widest hover:bg-[#00B076] focus:bg-[#00B076] active:bg-[#00B076] focus:outline-none focus:ring-2 focus:ring-[#00B076] focus:ring-offset-2 transition ease-in-out duration-150 justify-center items-center rounded-[64px] bg-[#00B076] w-[100%] h-[45px] text-[14px]"
+                                        className={`flex items-center px-4 py-2 bg-[#00B076] border border-transparent font-semibold text-white uppercase tracking-widest hover:bg-[#00B076] focus:bg-[#00B076] active:bg-[#00B076] focus:outline-none focus:ring-2 focus:ring-[#00B076] focus:ring-offset-2 transition ease-in-out duration-150 justify-center items-center rounded-[64px] bg-[#00B076] w-[100%] h-[45px] text-[14px] ${isLoading ? 'cursor-not-allowed opacity-65' : 'cursor-pointer'}`}
                                         disabled={isLoading}
                                     >
                                         {!isLoading ? (
