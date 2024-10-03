@@ -3,6 +3,7 @@
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Loader from "@/app/components/Loader/SpinkitBounceLoader";
 
 const withAuth = (WrappedComponent, allowedRoles) => {
     const AuthenticatedComponent = (props) => {
@@ -16,7 +17,7 @@ const withAuth = (WrappedComponent, allowedRoles) => {
         }, [role, loading]);
 
         if (loading) {
-            return <div>Loading...</div>;
+            return <Loader />;
         }
 
         if (!role || (allowedRoles && !allowedRoles.includes(role.name))) {
