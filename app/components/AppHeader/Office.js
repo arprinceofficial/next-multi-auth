@@ -45,7 +45,7 @@ export default function Admin() {
 
     useEffect(() => {
         getProfileImage();
-    }, [auth_user]);
+    }, []);
 
     return (
         <>
