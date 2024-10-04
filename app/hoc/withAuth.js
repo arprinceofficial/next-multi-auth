@@ -14,7 +14,7 @@ const withAuth = (WrappedComponent, allowedRoles) => {
                 // console.log('role name:', role);
                 router.push('/');
             }
-        }, [role, loading]);
+        }, [role, loading, router]);
 
         if (loading) {
             return <Loader />;

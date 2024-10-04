@@ -1,9 +1,12 @@
 "use client";
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import ApplicationLogo from "@/app/components/ApplicationLogo";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
+import Image from "next/image";
+import DefaultProfileImage from "@/app/assets/img/profile-image.png";
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -19,6 +22,34 @@ function classNames(...classes) {
 export default function Admin() {
     const { adminLogout, auth_user } = useAuth();
     // console.log('auth_user', auth_user);
+
+    const [profileImage, setProfileImage] = useState(null);
+    useEffect(() => {
+        const getProfileImage = async () => {
+            try {
+                if (!auth_user?.user?.profile_image) return;
+
+                const response = await fetch(auth_user.user.profile_image, {
+                    accept: 'application/json',
+                    method: 'GET',
+                    headers: {
+                        authorization: `Bearer ${auth_user.access_token}`,
+                    },
+                });
+
+                // Convert the response to Blob and generate a URL
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                setProfileImage(imageUrl);
+            } catch (error) {
+                console.log('Error fetching profile image:', error);
+            }
+        };
+
+        if (auth_user) {
+            getProfileImage();
+        }
+    }, [auth_user]);
     return (
         <>
             <>
@@ -37,10 +68,14 @@ export default function Admin() {
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center">
                                     <Link href="/office">
-                                        <img
+                                        <Image
                                             alt="Your Company"
                                             src="https://queue.arprince.me/img/main-logo.png"
                                             className="h-8 w-auto"
+                                            width="0"
+                                            height="0"
+                                            sizes="100vw"
+                                            priority
                                         />
                                     </Link>
                                 </div>
@@ -78,10 +113,14 @@ export default function Admin() {
                                         <MenuButton className="relative flex rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             <span className="absolute -inset-1.5" />
                                             <span className="sr-only">Open user menu</span>
-                                            <img
-                                                alt=""
-                                                src={auth_user.user.profile_image}
+                                            <Image
+                                                alt="profileImage"
+                                                src={profileImage ?? DefaultProfileImage}
                                                 className="h-8 w-8 rounded-full"
+                                                width="32"
+                                                height="32"
+                                                sizes="100vw"
+                                                priority
                                             />
                                         </MenuButton>
                                     </div>
