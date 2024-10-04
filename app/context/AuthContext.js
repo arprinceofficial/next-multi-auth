@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token-office', access_token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         setRole(role);
+        setAuthUser(response.data.data);
     };
     const logout = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/logout`);
@@ -69,6 +70,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token-admin', access_token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         setRole(role);
+        setAuthUser(response.data.data);
     };
 
     const adminLogout = () => {
