@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import ApplicationLogo from "@/app/components/ApplicationLogo";
+import ColorMode from "@/app/components/ColorMode";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
@@ -97,6 +98,7 @@ export default function Admin() {
                                 </div>
                             </div>
                         </div>
+                        <ColorMode />
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button
                                 type="button"

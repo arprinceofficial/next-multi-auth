@@ -19,17 +19,19 @@ export const metadata = {
 	icons: [{ rel: 'icon', url: Favicon.src }],
 };
 import { AuthProvider } from '@/app/context/AuthContext';
-
+import { ColorModeProvider } from '@/app/context/ColorModeContext';
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en">
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
-				<AuthProvider>
-					{children}
-				</AuthProvider>
-			</body>
-		</html>
+		<ColorModeProvider>
+			<html lang="en">
+				<body
+					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				>
+					<AuthProvider>
+						{children}
+					</AuthProvider>
+				</body>
+			</html>
+		</ColorModeProvider>
 	);
 }

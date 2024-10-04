@@ -7,6 +7,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import Image from "next/image";
 import DefaultProfileImage from "@/app/assets/img/profile-image.png";
+import ColorMode from "@/app/components/ColorMode";
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -97,6 +98,7 @@ export default function Admin() {
                                     </div>
                                 </div>
                             </div>
+                            <ColorMode />
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                 <button
                                     type="button"

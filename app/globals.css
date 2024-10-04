@@ -7,6 +7,26 @@
   --foreground: #171717;
 }
 
+body.light {
+  --background: white;
+  --text-color: black;
+}
+
+body.dark {
+  --background: black;
+  --text-color: white;
+}
+
+body.sepia {
+  --background: #f4ecd8;
+  --text-color: #5b4636;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
