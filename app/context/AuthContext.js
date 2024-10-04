@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [role, setRole] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [auth_user, setAuthUser] = useState(null);
 
     useEffect(() => {
         const token_office = localStorage.getItem('token-office');
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
             axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/current-user`)
                 .then(response => {
                     setRole(response.data.data.role);
+                    setAuthUser(response.data.data);
                 })
                 .catch(() => {
                     setRole(null);
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }) => {
             axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/current-user`)
                 .then(response => {
                     setRole(response.data.data.role);
+                    setAuthUser(response.data.data);
                 })
                 .catch(() => {
                     setRole(null);
@@ -76,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ role, loading, login, logout, adminLogin, adminLogout }}>
+        <AuthContext.Provider value={{ auth_user, role, loading, login, logout, adminLogin, adminLogout }}>
             {children}
         </AuthContext.Provider>
     );
