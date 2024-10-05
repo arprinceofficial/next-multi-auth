@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         const token_admin = localStorage.getItem('token-admin');
         if (token_office) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token_office}`;
-            // fetch current user
+            // fetch current office user
             axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/current-user`)
                 .then(response => {
                     setRole(response.data.data.role);
@@ -22,13 +22,14 @@ export const AuthProvider = ({ children }) => {
                 })
                 .catch(() => {
                     setRole(null);
+                    localStorage.removeItem('token-office');
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         } else if (token_admin) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token_admin}`;
-            // fetch current user
+            // fetch current admin user
             axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/current-user`)
                 .then(response => {
                     setRole(response.data.data.role);
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }) => {
                 })
                 .catch(() => {
                     setRole(null);
+                    localStorage.removeItem('token-admin');
                 })
                 .finally(() => {
                     setLoading(false);
