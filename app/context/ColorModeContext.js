@@ -4,10 +4,10 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const ColorModeContext = createContext();
 
 export function ColorModeProvider({ children }) {
-    const [colorMode, setColorMode] = useState('light');
+    const [colorMode, setColorMode] = useState('system');
 
     useEffect(() => {
-        // Get saved color mode from localStorage or fallback to 'light'
+        // Get saved color mode from localStorage or fallback to 'system'
         const savedMode = localStorage.getItem('color-mode') || 'system';
         setColorMode(savedMode);
 
