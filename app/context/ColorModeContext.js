@@ -8,7 +8,7 @@ export function ColorModeProvider({ children }) {
 
     useEffect(() => {
         // Get saved color mode from localStorage or fallback to 'light'
-        const savedMode = localStorage.getItem('color-mode') || 'light';
+        const savedMode = localStorage.getItem('color-mode') || 'system';
         setColorMode(savedMode);
 
         // Apply the current mode to the document body
