@@ -28,7 +28,10 @@ export default function Admin() {
     useEffect(() => {
         const getProfileImage = async () => {
             try {
-                if (!auth_user?.user?.profile_image || auth_user.user.profile_image.startsWith('https://')) return setProfileImage(auth_user.user.profile_image);
+                if (!auth_user?.user?.profile_image) {
+                    return;
+                } else if (auth_user.user.profile_image.startsWith('https://')) return setProfileImage(auth_user.user.profile_image);
+
 
                 const response = await fetch(auth_user.user.profile_image, {
                     accept: 'application/json',
