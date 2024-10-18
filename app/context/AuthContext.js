@@ -1,6 +1,8 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { auth, provider } from '@/app/firebase/firebaseConfig';
+import { signInWithPopup } from 'firebase/auth';
 
 const AuthContext = createContext();
 
@@ -57,6 +59,18 @@ export const AuthProvider = ({ children }) => {
         setRole(role);
         setAuthUser(response.data.data);
     };
+    const officeLoginGoogle = async () => {
+        const result = await signInWithPopup(auth, provider);
+        const { user } = result;
+        const idToken = await user.getIdToken();
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/google-login`, { idToken });
+        console.log('Login successful:', response.data.data);
+        const { access_token, role } = response.data.data;
+        localStorage.setItem('token-office', access_token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+        setRole(role);
+        setAuthUser(response.data.data);
+    };
     const logout = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/logout`);
         localStorage.removeItem('token-office');
@@ -83,7 +97,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ auth_user, role, loading, login, logout, adminLogin, adminLogout }}>
+        <AuthContext.Provider value={{ auth_user, role, loading, login, logout, adminLogin, adminLogout, officeLoginGoogle }}>
             {children}
         </AuthContext.Provider>
     );
