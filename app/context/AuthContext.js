@@ -1,7 +1,7 @@
 "use client";
 import axios from 'axios';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, provider } from '@/app/firebase/firebaseConfig';
+import { auth, googleProvider, facebookProvider } from '@/app/firebase/firebaseConfig';
 import { signInWithPopup } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -60,10 +60,22 @@ export const AuthProvider = ({ children }) => {
         setAuthUser(response.data.data);
     };
     const officeLoginGoogle = async () => {
-        const result = await signInWithPopup(auth, provider);
+        const result = await signInWithPopup(auth, googleProvider);
         const { user } = result;
         const idToken = await user.getIdToken();
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/google-login`, { idToken });
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/sso-login`, { idToken });
+        console.log('Login successful:', response.data.data);
+        const { access_token, role } = response.data.data;
+        localStorage.setItem('token-office', access_token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+        setRole(role);
+        setAuthUser(response.data.data);
+    };
+    const officeLoginFacebook = async () => {
+        const result = await signInWithPopup(auth, facebookProvider);
+        const { user } = result;
+        const idToken = await user.getIdToken();
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/office/sso-login`, { idToken });
         console.log('Login successful:', response.data.data);
         const { access_token, role } = response.data.data;
         localStorage.setItem('token-office', access_token);
@@ -97,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ auth_user, role, loading, login, logout, adminLogin, adminLogout, officeLoginGoogle }}>
+        <AuthContext.Provider value={{ auth_user, role, loading, login, logout, adminLogin, adminLogout, officeLoginGoogle, officeLoginFacebook }}>
             {children}
         </AuthContext.Provider>
     );

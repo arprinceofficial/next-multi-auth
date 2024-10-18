@@ -10,7 +10,7 @@ import InputLabel from "@/app/components/Input/Label";
 export default function OfficeLogin() {
     const [loginInput, setLoginInput] = useState('');
     const [password, setPassword] = useState('');
-    const { login, role, loading, officeLoginGoogle } = useAuth();
+    const { login, role, loading, officeLoginGoogle, officeLoginFacebook } = useAuth();
     const router = useRouter();
     const [password_open, passwordViewStatus] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +60,20 @@ export default function OfficeLogin() {
         } catch (error) {
             setErrorMsg(error.response.data.message);
             // console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const handleFacebookLogin = async () => {
+        setErrorMsg('');
+        setIsLoading(true);
+        try {
+            await officeLoginFacebook();
+            router.push('/office');
+        } catch (error) {
+            setErrorMsg(error.response?.data?.message);
+            console.log(error);
         } finally {
             setIsLoading(false);
         }
@@ -171,9 +185,9 @@ export default function OfficeLogin() {
                                         )}
                                     </button>
                                 </div>
-                                {/* google */}
-                                <div className="flex items-center justify-center mt-4">
-                                    <button
+                                <div className="flex items-center justify-center gap-2 mt-4">
+                                    {/* google */}
+                                    <div
                                         onClick={handleGoogleLogin}
                                         className={`w-full max-w-20 h-[45px] flex items-center px-4 py-2 bg-[#f5f5f5] border border-transparent font-semibold text-white uppercase tracking-widest hover:bg-[#f5f5f5] focus:bg-[#f5f5f5] active:bg-[#f5f5f5] focus:outline-none focus:ring-2 focus:ring-[#f5f5f5] focus:ring-offset-2 transition ease-in-out duration-150 justify-center items-center rounded-[64px] bg-[#f5f5f5] text-[14px] ${isLoading ? 'cursor-not-allowed opacity-65' : 'cursor-pointer'}`}
                                         disabled={isLoading}
@@ -213,7 +227,51 @@ export default function OfficeLogin() {
                                                 ></path>
                                             </svg>
                                         )}
-                                    </button>
+                                    </div>
+                                    {/* facebook */}
+                                    <div
+                                        onClick={handleFacebookLogin}
+                                        className={`w-full max-w-20 h-[45px] flex items-center px-4 py-2 bg-[#f5f5f5] border border-transparent font-semibold text-white uppercase tracking-widest hover:bg-[#f5f5f5] focus:bg-[#f5f5f5] active:bg-[#f5f5f5] focus:outline-none focus:ring-2 focus:ring-[#f5f5f5] focus:ring-offset-2 transition ease-in-out duration-150 justify-center items-center rounded-[64px] bg-[#f5f5f5] text-[14px] ${isLoading ? 'cursor-not-allowed opacity-65' : 'cursor-pointer'}`}
+                                        disabled={isLoading}
+                                    >
+                                        {!isLoading ? (
+                                            <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_610_3102)">
+                                                    <path d="M15.0146 25.23V13.9193H18.8096L19.3789 9.51008H15.0146V6.69541C15.0146 5.41922 15.3675 4.54952 17.1996 4.54952L19.5325 4.54856V0.604759C19.1291 0.552331 17.7442 0.432129 16.1324 0.432129C12.7666 0.432129 10.4623 2.48659 10.4623 6.25872V9.51008H6.65576V13.9193H10.4623V25.23H15.0146Z" fill="#1167E7" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_610_3102">
+                                                        <rect width="24.7979" height="24.7979" fill="white" transform="translate(0.695312 0.432129)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        ) : (
+                                            <svg
+                                                className="text-gray-300 animate-spin"
+                                                viewBox="0 0 64 64"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                            >
+                                                <path
+                                                    d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+                                                    stroke="currentColor"
+                                                    strokeWidth="5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                ></path>
+                                                <path
+                                                    d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                                                    stroke="currentColor"
+                                                    strokeWidth="5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    className="text-green-500"
+                                                ></path>
+                                            </svg>
+                                        )}
+                                    </div>
                                 </div>
                             </form>
                         </div>
