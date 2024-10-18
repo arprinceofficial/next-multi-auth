@@ -10,6 +10,16 @@ const nextConfig = {
                 hostname: 'queue.arprince.me',
                 pathname: '/img/**', // Adjust this to match your image paths
             },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'graph.facebook.com',
+                pathname: '**',
+            },
         ],
     },
     reactStrictMode: false,
